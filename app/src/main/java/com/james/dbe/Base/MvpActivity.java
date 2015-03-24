@@ -2,10 +2,8 @@ package com.james.dbe.Base;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import com.james.dbe.Base.view.BaseMvpView;
-import com.james.dbe.Base.view.ContentView;
 import com.james.dbe.Base.view.MvpView;
 import com.james.dbe.Base.view.PresenterObserver;
 
@@ -65,7 +63,7 @@ public class MvpActivity<V extends MvpView> extends FragmentActivity {
     private void init() {
         try {
             view = getViewClass().newInstance();
-            view.init(getLayoutId(), getLayoutInflater(), null);
+            view.init(getLayoutInflater(), null);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -73,15 +71,7 @@ public class MvpActivity<V extends MvpView> extends FragmentActivity {
         }
     }
 
-    private int getLayoutId() {
-        ContentView contentView = getClass().getAnnotation(ContentView.class);
-        if (contentView == null) {
-            Log.i("MVP", "ContentView is null");
-        } else {
-            return contentView.value();
-        }
-        return 0;
-    }
+
 
     protected Class<V> getViewClass() {
         Class<V> vClass = null;

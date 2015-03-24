@@ -6,9 +6,8 @@ import android.widget.Toast;
 
 import com.james.dbe.Base.MvpActivity;
 import com.james.dbe.Base.event.ClickEvent;
-import com.james.dbe.Base.view.ContentView;
 
-@ContentView(R.layout.activity_main)
+
 public class MainActivity extends MvpActivity<TestMvpView> implements TestMvpView.TestObserver {
 
     @Override

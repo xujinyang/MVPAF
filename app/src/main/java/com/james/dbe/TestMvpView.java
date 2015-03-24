@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.james.dbe.Base.view.BaseMvpView;
+import com.james.dbe.Base.view.ContentView;
 import com.james.dbe.Base.view.PresenterObserver;
 
 import butterknife.InjectView;
@@ -11,6 +12,7 @@ import butterknife.InjectView;
 /**
  * Created by james on 24/3/15.
  */
+@ContentView(R.layout.activity_main)
 public class TestMvpView extends BaseMvpView<TestMvpView.TestObserver> {
     @InjectView(R.id.name)
     TextView name;

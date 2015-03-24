@@ -1,5 +1,6 @@
 package com.james.dbe.Base.view;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,8 @@ public abstract class BaseMvpView<I extends PresenterObserver> implements MvpVie
     I listener;
 
     @Override
-    public void init(int layoutId, LayoutInflater inflater, ViewGroup container) {
-        view = inflater.inflate(layoutId, container, false);
+    public void init(LayoutInflater inflater, ViewGroup container) {
+        view = inflater.inflate(getLayoutId(), container, false);
         ButterKnife.inject(this, view);
         OnViewCreated();
     }
@@ -33,5 +34,15 @@ public abstract class BaseMvpView<I extends PresenterObserver> implements MvpVie
     @Override
     public View getView() {
         return view;
+    }
+
+    private int getLayoutId() {
+        ContentView contentView = getClass().getAnnotation(ContentView.class);
+        if (contentView == null) {
+            Log.i("MVP", "ContentView is null");
+        } else {
+            return contentView.value();
+        }
+        return 0;
     }
 }

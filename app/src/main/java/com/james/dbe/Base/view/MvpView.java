@@ -8,7 +8,7 @@ import android.view.ViewGroup;
  * Created by james on 24/3/15.
  */
 public interface MvpView {
-    void init(int layoutId, LayoutInflater inflater, ViewGroup container);
+    void init(LayoutInflater inflater, ViewGroup container);
 
     View getView();
 }
