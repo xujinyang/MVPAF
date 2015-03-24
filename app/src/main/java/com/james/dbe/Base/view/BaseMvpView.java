@@ -9,8 +9,9 @@ import butterknife.ButterKnife;
 /**
  * Created by james on 24/3/15.
  */
-public abstract class BaseMvpView implements MvpView {
+public abstract class BaseMvpView<I extends PresenterObserver> implements MvpView {
     View view;
+    I listener;
 
     @Override
     public void init(int layoutId, LayoutInflater inflater, ViewGroup container) {
@@ -20,6 +21,14 @@ public abstract class BaseMvpView implements MvpView {
     }
 
     protected abstract void OnViewCreated();
+
+    public I getListener() {
+        return listener;
+    }
+
+    public void setListener(I listener) {
+        this.listener = listener;
+    }
 
     @Override
     public View getView() {

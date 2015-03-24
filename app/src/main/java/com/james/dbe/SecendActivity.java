@@ -11,7 +11,7 @@ import com.james.dbe.Base.view.ContentView;
  * Created by james on 24/3/15.
  */
 @ContentView(R.layout.activity_secend)
-public class SecendActivity extends MvpActivity<SecendMvpView, SecendModel> {
+public class SecendActivity extends MvpActivity<SecendMvpView> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -4,11 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-import com.james.dbe.Base.model.BaseMvpModel;
-import com.james.dbe.Base.model.MvpModel;
+import com.james.dbe.Base.view.BaseMvpView;
 import com.james.dbe.Base.view.ContentView;
 import com.james.dbe.Base.view.MvpView;
-import com.james.dbe.Base.view.ViewInterface;
+import com.james.dbe.Base.view.PresenterObserver;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -19,9 +18,8 @@ import de.greenrobot.event.EventBusException;
 /**
  * Created by james on 24/3/15.
  */
-public class MvpActivity<V extends MvpView, M extends MvpModel> extends FragmentActivity {
+public class MvpActivity<V extends MvpView> extends FragmentActivity {
     private V view;
-    private M model;
     private EventBus eventBus;
 
     @Override
@@ -29,22 +27,11 @@ public class MvpActivity<V extends MvpView, M extends MvpModel> extends Fragment
         super.onCreate(savedInstanceState);
         init();
         setContentView(view.getView());
-        bindModel();
+        setListener();
     }
 
     public V getView() {
         return view;
-    }
-
-    public M getModle() {
-        return model;
-    }
-
-    public ViewInterface getInterface() {
-        if (view instanceof ViewInterface) {
-            return (ViewInterface) view;
-        }
-        return null;
     }
 
     public EventBus getEventBus() {
@@ -70,15 +57,9 @@ public class MvpActivity<V extends MvpView, M extends MvpModel> extends Fragment
         }
     }
 
-    private void bindModel() {
-        try {
-            model = getModelClass().newInstance();
-            ((BaseMvpModel) model).setContext(this);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+    private void setListener() {
+        if (this instanceof PresenterObserver)
+            ((BaseMvpView) view).setListener((PresenterObserver) this);
     }
 
     private void init() {
@@ -117,26 +98,6 @@ public class MvpActivity<V extends MvpView, M extends MvpModel> extends Fragment
                 vClass = (Class<V>) params[0];
             }
         } while (false);
-        return vClass;
-    }
-
-    protected Class<M> getModelClass() {
-        Class<M> vClass = null;
-
-        do {
-            Type genType = getClass().getGenericSuperclass();
-            if (!(genType instanceof ParameterizedType)) {
-                break;
-            }
-            Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-            if (params == null || params.length < 2) {
-                break;
-            }
-            if (params[1] != null && params[1] instanceof Class) {
-                vClass = (Class<M>) params[1];
-            }
-        } while (false);
-
         return vClass;
     }
 }
