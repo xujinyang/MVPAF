@@ -1,4 +1,36 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:2.5.0'
+    }
+}
+
+// Required because retrolambda is on maven central
+repositories {
+    mavenCentral()
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+String java8 = getJavaVersion(8)
+String java7 = getJavaVersion(7)
+retrolambda {
+    jdk java8 //have tried with JAVA8_HOME
+    oldJdk java7 //have tried with JAVA6_HOME
+    javaVersion JavaVersion.VERSION_1_7 //have matched the above with VERSION_1_6
+}
+
+String getJavaVersion(Integer v) {
+    def sout = new StringBuffer()
+    def proc = "/usr/libexec/java_home -v 1.$v".execute()
+    proc.consumeProcessOutput(sout, new StringBuffer())
+    proc.waitForOrKill(1000)
+    return sout.toString().replace("\n", "").replace("\r", "")
+}
 
 android {
     compileSdkVersion 21
@@ -13,8 +45,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
         release {
@@ -38,6 +70,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.2'
     compile 'com.jakewharton:butterknife:6.0.0'
     compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'io.reactivex:rxandroid:0.24.0'
     compile "org.parceler:parceler-api:+"
     provided "org.parceler:parceler:+"
 }

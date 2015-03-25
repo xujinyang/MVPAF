@@ -71,8 +71,6 @@ public class MvpActivity<V extends MvpView> extends FragmentActivity {
         }
     }
 
-
-
     protected Class<V> getViewClass() {
         Class<V> vClass = null;
         do {

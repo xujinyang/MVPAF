@@ -7,6 +7,9 @@ import android.widget.Toast;
 import com.james.dbe.Base.MvpActivity;
 import com.james.dbe.Base.event.ClickEvent;
 
+import rx.Observable;
+import rx.Subscriber;
+
 
 public class MainActivity extends MvpActivity<TestMvpView> implements TestMvpView.TestObserver {
 
@@ -28,6 +31,35 @@ public class MainActivity extends MvpActivity<TestMvpView> implements TestMvpVie
 
     @Override
     public void onClickName() {
-        toSecendActivity();
+        Observable.just("Hello, world!")
+                .subscribe(s -> Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show());
+    }
+
+    private void totalObservable() {
+        Observable<String> myObservable = Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                subscriber.onNext("rx开始");
+                subscriber.onCompleted();
+            }
+        });
+
+        Subscriber<String> mySubsriber = new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+                Toast.makeText(getApplicationContext(), "rx结束", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+            }
+        };
+        myObservable.subscribe(mySubsriber);
     }
 }
