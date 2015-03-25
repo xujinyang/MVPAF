@@ -1,65 +1,30 @@
 package com.james.dbe;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.james.dbe.Base.MvpActivity;
 import com.james.dbe.Base.event.ClickEvent;
+import com.james.dbe.Base.view.ContentView;
 
-import rx.Observable;
-import rx.Subscriber;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
+@ContentView(R.layout.activity_main)
+public class MainActivity extends MvpActivity<TestPresenter, TestPresenter.TestMvpView> implements TestPresenter.TestMvpView {
+    @InjectView(R.id.name)
+    TextView nameView;
 
-public class MainActivity extends MvpActivity<TestMvpView> implements TestMvpView.TestObserver {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getEventBus().register(this);
-    }
-
-    private void toSecendActivity() {
-        Intent intent = new Intent(MainActivity.this, SecendActivity.class);
-        startActivity(intent);
-    }
-
-    public void onEvent(ClickEvent event) {
-        Toast.makeText(getApplicationContext(), "测试eventBus", Toast.LENGTH_LONG).show();
-        getView().setName("测试成功");
+    @OnClick(R.id.name)
+    void onNameClick() {
+        presenter.showName();
     }
 
     @Override
-    public void onClickName() {
-        Observable.just("Hello, world!")
-                .subscribe(s -> Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show());
+    public void changeName(String name) {
+        nameView.setText(name);
     }
 
-    private void totalObservable() {
-        Observable<String> myObservable = Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                subscriber.onNext("rx开始");
-                subscriber.onCompleted();
-            }
-        });
-
-        Subscriber<String> mySubsriber = new Subscriber<String>() {
-            @Override
-            public void onCompleted() {
-                Toast.makeText(getApplicationContext(), "rx结束", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(String s) {
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-            }
-        };
-        myObservable.subscribe(mySubsriber);
+    public void onEventMainThread(ClickEvent event) {
+        nameView.setText("接受到event");
     }
 }

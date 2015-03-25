@@ -1,6 +1,9 @@
 package com.james.dbe.Base;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.james.dbe.Base.presenter.BasePresenter;
 import com.james.dbe.Base.view.MvpView;
@@ -9,16 +12,22 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * Created by james on 24/3/15.
+ * Created by james on 25/3/15.
  */
-public class MvpActivity<P extends BasePresenter, V extends MvpView> extends BaseActivity {
-    protected V view;
+public class MvpFragment<P extends BasePresenter, V extends MvpView> extends BaseFragment {
+    protected MvpActivity mvpActivity;
     protected P presenter;
-
+    protected V view;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mvpActivity = (MvpActivity) getActivity();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mvpInit();
         init();
     }
@@ -38,7 +47,7 @@ public class MvpActivity<P extends BasePresenter, V extends MvpView> extends Bas
             }
             if (presenter != null) {
                 presenter.setViewListener(view);
-                presenter.setContext(this);
+                presenter.setContext(getActivity());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,22 +74,4 @@ public class MvpActivity<P extends BasePresenter, V extends MvpView> extends Bas
         return pClass;
     }
 
-
-    protected Class<V> getViewClass() {
-        Class<V> vClass = null;
-        do {
-            Type genType = getClass().getGenericSuperclass();
-            if (!(genType instanceof ParameterizedType)) {
-                break;
-            }
-            Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-            if (params == null || params.length < 2) {
-                break;
-            }
-            if (params[1] != null && params[1] instanceof Class) {
-                vClass = (Class<V>) params[1];
-            }
-        } while (false);
-        return vClass;
-    }
 }

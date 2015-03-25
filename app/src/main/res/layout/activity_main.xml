@@ -10,8 +10,11 @@
 
     <TextView
         android:id="@+id/name"
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
+        android:text="第一个页面"
+        android:gravity="center"
+        android:padding="10dp"
+        android:background="@android:color/holo_green_dark"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 </RelativeLayout>

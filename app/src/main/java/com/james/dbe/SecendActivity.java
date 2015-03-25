@@ -1,23 +1,25 @@
 package com.james.dbe;
 
-import android.os.Bundle;
+import android.widget.TextView;
 
 import com.james.dbe.Base.MvpActivity;
-import com.james.dbe.Base.event.ClickEvent;
+import com.james.dbe.Base.view.ContentView;
+
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by james on 24/3/15.
  */
+@ContentView(R.layout.activity_secend)
+public class SecendActivity extends MvpActivity<SecendPresenter, SecendPresenter.SecendView> implements SecendPresenter.SecendView {
 
-public class SecendActivity extends MvpActivity<SecendMvpView> implements TestMvpView.TestObserver {
+    @InjectView(R.id.secend)
+    TextView secendView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @OnClick(R.id.secend)
+    void onClickSecend() {
+        presenter.sendEvent();
     }
 
-    @Override
-    public void onClickName() {
-        getEventBus().post(new ClickEvent());
-    }
 }
