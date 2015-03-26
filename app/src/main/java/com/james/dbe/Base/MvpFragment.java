@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.james.dbe.Base.presenter.BasePresenter;
 import com.james.dbe.Base.view.MvpView;
+import com.james.dbe.MvpActivity;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

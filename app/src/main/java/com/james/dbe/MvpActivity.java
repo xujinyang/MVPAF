@@ -1,4 +1,4 @@
-package com.james.dbe.Base;
+package com.james.dbe;
 
 import android.os.Bundle;
 
@@ -19,6 +19,7 @@ public class MvpActivity<P extends BasePresenter, V extends MvpView> extends Bas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        App.from(getApplicationContext()).inject(this);
         mvpInit();
         init();
     }

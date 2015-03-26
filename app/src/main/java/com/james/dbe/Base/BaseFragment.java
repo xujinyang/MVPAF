@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.james.dbe.Base.view.ContentView;
+import com.james.dbe.MvpActivity;
 
 import butterknife.ButterKnife;
 

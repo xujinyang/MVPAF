@@ -1,4 +1,4 @@
-package com.james.dbe.Base;
+package com.james.dbe;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;

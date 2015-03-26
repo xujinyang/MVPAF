@@ -2,7 +2,6 @@ package com.james.dbe;
 
 import android.widget.TextView;
 
-import com.james.dbe.Base.MvpActivity;
 import com.james.dbe.Base.view.ContentView;
 
 import butterknife.InjectView;
